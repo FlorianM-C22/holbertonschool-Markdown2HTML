@@ -1,23 +1,25 @@
 #!/usr/bin/python3
-"""Start script"""
+"""Convert Markdown files to HTML format."""
 
 import sys
 import os
 
+
 def convert_headings(markdown_text):
-    """Placeholder for future heading conversion"""
+    """Placeholder for future heading conversion."""
     return markdown_text
+
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
-        sys.stderr.write("Usage: ./markdown2html.py README.md README.html\n")
+        print("Usage: ./markdown2html.py README.md README.html", file=sys.stderr)
         sys.exit(1)
     
     markdown_file = sys.argv[1]
     output_file = sys.argv[2]
     
     if not os.path.exists(markdown_file):
-        sys.stderr.write(f"Missing {markdown_file}\n")
+        print(f"Missing {markdown_file}", file=sys.stderr)
         sys.exit(1)
     
     try:
@@ -31,5 +33,5 @@ if __name__ == "__main__":
             
         sys.exit(0)
     except Exception as e:
-        sys.stderr.write(f"Error: {str(e)}\n")
+        print(f"Error: {str(e)}", file=sys.stderr)
         sys.exit(1)
