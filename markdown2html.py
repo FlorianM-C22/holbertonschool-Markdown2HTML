@@ -1,3 +1,9 @@
+#!/usr/bin/python3
+"""Convert Markdown files to HTML format."""
+import sys
+import os
+
+
 def convert_headings(markdown_text):
     """
     Convert markdown headings to HTML format.
@@ -8,7 +14,7 @@ def convert_headings(markdown_text):
         heading_lvl = 0
         for char in line:
             if char == '#':
-                heading_lvl += 1
+                heading_level += 1
             else:
                 break
 
