@@ -8,6 +8,7 @@ import os
 def convert_headings(markdown_text):
     """Convert markdown headings to HTML format."""
     html_lines = []
+
     for line in markdown_text.split('\n'):
         heading_level = 0
         for char in line:
@@ -48,5 +49,4 @@ if __name__ == "__main__":
             
         sys.exit(0)
     except Exception as e:
-        sys.stderr.write(f"Error: {str(e)}\n")
         sys.exit(1)
