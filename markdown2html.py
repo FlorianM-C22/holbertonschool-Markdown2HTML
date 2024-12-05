@@ -1,11 +1,14 @@
 #!/usr/bin/python3
-"""Convert Markdown files to HTML format."""
+""" Convert Markdown files to HTML format.
+"""
 import sys
 import os
 
 
 def convert_headings(markdown_text):
-    """Convert markdown headings to HTML format."""
+    """
+    Convert markdown headings to HTML format.
+    """
     html_lines = []
 
     for line in markdown_text.split('\n'):
@@ -26,7 +29,9 @@ def convert_headings(markdown_text):
 
 
 def convert_unordered_lists(markdown_text):
-    """Convert markdown unordered lists to HTML format."""
+    """
+    Convert markdown unordered lists to HTML format.
+    """
     html_lines = []
     in_list = False
     
