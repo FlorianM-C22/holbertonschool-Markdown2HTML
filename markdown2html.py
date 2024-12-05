@@ -6,8 +6,23 @@ import os
 
 
 def convert_headings(markdown_text):
-    """Placeholder for future heading conversion."""
-    return markdown_text
+    """Convert markdown headings to HTML format."""
+    html_lines = []
+    for line in markdown_text.split('\n'):
+        heading_level = 0
+        for char in line:
+            if char == '#':
+                heading_level += 1
+            else:
+                break
+        
+        if 0 < heading_level <= 6:
+            content = line[heading_level:].strip()
+            html_lines.append(f'<h{heading_level}>{content}</h{heading_level}>')
+        else:
+            html_lines.append(line)
+    
+    return '\n'.join(html_lines)
 
 
 if __name__ == "__main__":
