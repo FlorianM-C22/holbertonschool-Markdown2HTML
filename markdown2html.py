@@ -25,6 +25,31 @@ def convert_headings(markdown_text):
     return '\n'.join(html_lines)
 
 
+def convert_unordered_lists(markdown_text):
+    """Convert markdown unordered lists to HTML format."""
+    html_lines = []
+    in_list = False
+    
+    for line in markdown_text.split('\n'):
+        stripped_line = line.strip()
+        if stripped_line.startswith('- '):
+            if not in_list:
+                html_lines.append('<ul>')
+                in_list = True
+            content = stripped_line[2:].strip()
+            html_lines.append(f'    <li>{content}</li>')
+        else:
+            if in_list:
+                html_lines.append('</ul>')
+                in_list = False
+            html_lines.append(line)
+    
+    if in_list:
+        html_lines.append('</ul>')
+    
+    return '\n'.join(html_lines)
+
+
 if __name__ == "__main__":
     if len(sys.argv) < 3:
         sys.stderr.write("Usage: ./markdown2html.py README.md README.html\n")
@@ -42,6 +67,7 @@ if __name__ == "__main__":
             markdown_content = f.read()
         
         html_content = convert_headings(markdown_content)
+        html_content = convert_unordered_lists(html_content)
         
         with open(output_file, 'w') as f:
             f.write(html_content)
