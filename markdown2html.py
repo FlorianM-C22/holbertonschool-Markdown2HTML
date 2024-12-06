@@ -2,6 +2,7 @@
 """Convert Markdown files to HTML format."""
 import sys
 import os
+import hashlib
 
 
 def convert_headings(markdown_text):
@@ -99,6 +100,83 @@ def convert_paragraphs(markdown_text):
     return '\n'.join(html_lines)
 
 
+def convert_bold(markdown_text):
+    """Convert markdown bold syntax (**text**) to HTML format."""
+    html_lines = []
+    
+    for line in markdown_text.split("\n"):
+        while "**" in line:
+            start = line.find("**")
+            if start != -1:
+                end = line.find("**", start + 2)
+                if end != -1:
+                    content = line[start + 2:end]
+                    line = line[:start] + f"<b>{content}</b>" + line[end + 2:]
+                else:
+                    break
+        html_lines.append(line)
+    
+    return "\n".join(html_lines)
+
+
+def convert_emphasis(markdown_text):
+    """Convert markdown emphasis syntax (__text__) to HTML format."""
+    html_lines = []
+    
+    for line in markdown_text.split("\n"):
+        while "__" in line:
+            start = line.find("__")
+            if start != -1:
+                end = line.find("__", start + 2)
+                if end != -1:
+                    content = line[start + 2:end]
+                    line = line[:start] + f"<em>{content}</em>" + line[end + 2:]
+                else:
+                    break
+        html_lines.append(line)
+    
+    return "\n".join(html_lines)
+
+
+def convert_md5(markdown_text):
+    """Convert [[text]] syntax to MD5 hash."""
+    html_lines = []
+    
+    for line in markdown_text.split("\n"):
+        while "[[" in line and "]]" in line:
+            start = line.find("[[")
+            end = line.find("]]")
+            if start != -1 and end != -1:
+                content = line[start + 2:end]
+                # Convert content to MD5 hash (lowercase)
+                md5_hash = hashlib.md5(content.encode()).hexdigest()
+                line = line[:start] + md5_hash + line[end + 2:]
+            else:
+                break
+        html_lines.append(line)
+    
+    return "\n".join(html_lines)
+
+
+def remove_c(markdown_text):
+    """Remove all 'c' characters (case insensitive) from ((text))."""
+    html_lines = []
+    
+    for line in markdown_text.split("\n"):
+        while "((" in line and "))" in line:
+            start = line.find("((")
+            end = line.find("))")
+            if start != -1 and end != -1:
+                content = line[start + 2:end]
+                filtered_content = ''.join(char for char in content if char.lower() != 'c')
+                line = line[:start] + filtered_content + line[end + 2:]
+            else:
+                break
+        html_lines.append(line)
+    
+    return "\n".join(html_lines)
+
+
 if __name__ == "__main__":
     if len(sys.argv) < 3:
         sys.stderr.write("Usage: ./markdown2html.py README.md README.html\n")
@@ -116,6 +194,10 @@ if __name__ == "__main__":
             markdown_content = f.read()
 
         html_content = convert_headings(markdown_content)
+        html_content = convert_md5(html_content)
+        html_content = remove_c(html_content)
+        html_content = convert_bold(html_content)
+        html_content = convert_emphasis(html_content)
         html_content = convert_unordered_lists(html_content)
         html_content = convert_ordered_lists(html_content)
         html_content = convert_paragraphs(html_content)
