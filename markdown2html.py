@@ -91,7 +91,7 @@ def convert_paragraphs(markdown_text):
             for line in lines:
                 if line.strip():
                     formatted_lines.append(line.strip())
-            
+
             if formatted_lines:
                 content = '<br/>\n'.join(formatted_lines)
                 html_lines.append(f"<p>\n{content}\n</p>")
