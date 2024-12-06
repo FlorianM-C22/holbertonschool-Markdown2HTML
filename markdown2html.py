@@ -103,7 +103,7 @@ def convert_paragraphs(markdown_text):
 def convert_bold(markdown_text):
     """Convert markdown bold syntax (**text**) to HTML format."""
     html_lines = []
-    
+
     for line in markdown_text.split("\n"):
         while "**" in line:
             start = line.find("**")
@@ -115,14 +115,14 @@ def convert_bold(markdown_text):
                 else:
                     break
         html_lines.append(line)
-    
+
     return "\n".join(html_lines)
 
 
 def convert_emphasis(markdown_text):
     """Convert markdown emphasis syntax (__text__) to HTML format."""
     html_lines = []
-    
+
     for line in markdown_text.split("\n"):
         while "__" in line:
             start = line.find("__")
@@ -134,14 +134,14 @@ def convert_emphasis(markdown_text):
                 else:
                     break
         html_lines.append(line)
-    
+
     return "\n".join(html_lines)
 
 
 def convert_md5(markdown_text):
     """Convert [[text]] syntax to MD5 hash."""
     html_lines = []
-    
+
     for line in markdown_text.split("\n"):
         while "[[" in line and "]]" in line:
             start = line.find("[[")
@@ -154,14 +154,14 @@ def convert_md5(markdown_text):
             else:
                 break
         html_lines.append(line)
-    
+
     return "\n".join(html_lines)
 
 
 def remove_c(markdown_text):
     """Remove all 'c' characters (case insensitive) from ((text))."""
     html_lines = []
-    
+
     for line in markdown_text.split("\n"):
         while "((" in line and "))" in line:
             start = line.find("((")
@@ -173,7 +173,7 @@ def remove_c(markdown_text):
             else:
                 break
         html_lines.append(line)
-    
+
     return "\n".join(html_lines)
 
 
