@@ -75,6 +75,30 @@ def convert_ordered_lists(markdown_text):
     return "\n".join(html_lines)
 
 
+def convert_paragraphs(markdown_text):
+    """Convert text blocks into HTML paragraphs and handle line breaks."""
+    blocks = markdown_text.split('\n\n')
+    html_lines = []
+
+    for block in blocks:
+        if block.strip():
+            if block.strip().startswith(('<h', '<ul', '<ol', '<li')):
+                html_lines.append(block)
+                continue
+
+            lines = block.split('\n')
+            formatted_lines = []
+            for line in lines:
+                if line.strip():
+                    formatted_lines.append(line.strip())
+            
+            if formatted_lines:
+                content = '<br/>\n'.join(formatted_lines)
+                html_lines.append(f"<p>\n{content}\n</p>")
+
+    return '\n'.join(html_lines)
+
+
 if __name__ == "__main__":
     if len(sys.argv) < 3:
         sys.stderr.write("Usage: ./markdown2html.py README.md README.html\n")
@@ -94,6 +118,7 @@ if __name__ == "__main__":
         html_content = convert_headings(markdown_content)
         html_content = convert_unordered_lists(html_content)
         html_content = convert_ordered_lists(html_content)
+        html_content = convert_paragraphs(html_content)
 
         with open(output_file, "w") as f:
             f.write(html_content)
