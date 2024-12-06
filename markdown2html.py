@@ -130,7 +130,8 @@ def convert_emphasis(markdown_text):
                 end = line.find("__", start + 2)
                 if end != -1:
                     content = line[start + 2:end]
-                    line = line[:start] + f"<em>{content}</em>" + line[end + 2:]
+                    line = line[:start] + f"<em>{content}</em>"
+                    line += line[end + 2:]
                 else:
                     break
         html_lines.append(line)
@@ -168,7 +169,8 @@ def remove_c(markdown_text):
             end = line.find("))")
             if start != -1 and end != -1:
                 content = line[start + 2:end]
-                filtered_content = ''.join(char for char in content if char.lower() != 'c')
+                filtered_content = ''.join(char for char in content
+                                           if char.lower() != 'c')
                 line = line[:start] + filtered_content + line[end + 2:]
             else:
                 break
@@ -207,4 +209,5 @@ if __name__ == "__main__":
 
         sys.exit(0)
     except Exception as e:
+        sys.stderr.write(f"An error occurred: {e}\n")
         sys.exit(1)
